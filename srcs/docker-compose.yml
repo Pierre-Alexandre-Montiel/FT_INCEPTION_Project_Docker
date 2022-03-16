@@ -6,7 +6,7 @@
 #    By: pmontiel <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/01 16:35:21 by pmontiel          #+#    #+#              #
-#    Updated: 2022/03/16 17:51:22 by pmontiel         ###   ########.fr        #
+#    Updated: 2022/03/16 18:34:28 by pmontiel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,7 @@ services:
         container_name: "nginx_cont"
         build: ./requirements/nginx
         volumes:
-            - word:/var/www/html
-        #    - nginx:/etc/nginx/conf.d
-        #    - /data/html:/var/www/html
+            - wordpress:/var/www/html
         depends_on:
             - wordpress
         networks:
@@ -30,7 +28,7 @@ services:
         container_name: "wordpress_cont"
         build: ./requirements/wordpress
         volumes:
-            - word:/var/www/html
+            - wordpress:/var/www/html
         depends_on:
             - db
         #   nginx
@@ -47,11 +45,10 @@ services:
         image: "mariadb:${MARIADB_VERSION}"
         container_name: "db_cont"
         build: ./requirements/mariadb
-        tty: true
         ports:
             - 3306:3306
         volumes:
-            - maria:/home/login/data
+            - mariadb:/var/lib/mysql
         networks:
             - host
         environment:
@@ -59,20 +56,21 @@ services:
             - MYSQL_DATABASE:db_name
             - MYSQL_USER:user_name
             - MYSQL_PASSWORD:user_passnetworks
+        restart: always
 networks:
     host:
 volumes:
     wordpress:
-        name: word
+        name: wordpress
         driver: local
         driver_opts:
             type: none
-            device: /home/pmontiel/data/word
+            device: "/Users/pmontiel/Desktop/ft_inception/srcs"
             o: bind
     mariadb:
-        name: maria
+        name: mariadb
         driver: local
         driver_opts:
             type: none
-            device: /home/pmontiel/data/maria
+            device: "/Users/pmontiel/Desktop/ft_inception/srcs"
             o: bind

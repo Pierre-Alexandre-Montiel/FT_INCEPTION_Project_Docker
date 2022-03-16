@@ -6,7 +6,7 @@
 #    By: pmontiel <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/01 16:35:21 by pmontiel          #+#    #+#              #
-#    Updated: 2022/03/16 18:34:28 by pmontiel         ###   ########.fr        #
+#    Updated: 2022/03/16 18:46:17 by pmontiel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,12 +65,12 @@ volumes:
         driver: local
         driver_opts:
             type: none
-            device: "/Users/pmontiel/Desktop/ft_inception/srcs"
+            device: "/Users/pmontiel/Desktop/word"
             o: bind
     mariadb:
         name: mariadb
         driver: local
         driver_opts:
             type: none
-            device: "/Users/pmontiel/Desktop/ft_inception/srcs"
+            device: "/Users/pmontiel/Desktop/mari"
             o: bind

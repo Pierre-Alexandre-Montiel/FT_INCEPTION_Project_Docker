@@ -1,0 +1,78 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    docker-compose.yml                                 :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: pmontiel <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/03/01 16:35:21 by pmontiel          #+#    #+#              #
+#    Updated: 2022/03/16 17:51:22 by pmontiel         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+version: '3'
+services:
+    nginx:
+        container_name: "nginx_cont"
+        build: ./requirements/nginx
+        volumes:
+            - word:/var/www/html
+        #    - nginx:/etc/nginx/conf.d
+        #    - /data/html:/var/www/html
+        depends_on:
+            - wordpress
+        networks:
+            - host
+        ports:
+              - 443:443
+    wordpress:
+        image: wordpress
+        container_name: "wordpress_cont"
+        build: ./requirements/wordpress
+        volumes:
+            - word:/var/www/html
+        depends_on:
+            - db
+        #   nginx
+        networks:
+            - host
+        environment:
+            - WORDPRESS_DB_HOST:db:3306
+            - MYSQL_ROOT_PASSWORD:mysql_root_pass
+            - WORDPRESS_DB_NAME:db_name
+            - WORDPRESS_DB_USER:user_name
+            - WORDPRESS_DB_PASSWORD:user_pass
+            - WORDPRESS_TABLE_PREFIX:wp_
+    db:
+        image: "mariadb:${MARIADB_VERSION}"
+        container_name: "db_cont"
+        build: ./requirements/mariadb
+        tty: true
+        ports:
+            - 3306:3306
+        volumes:
+            - maria:/home/login/data
+        networks:
+            - host
+        environment:
+            - MYSQL_ROOT_PASSWORD:mysql_root_pass
+            - MYSQL_DATABASE:db_name
+            - MYSQL_USER:user_name
+            - MYSQL_PASSWORD:user_passnetworks
+networks:
+    host:
+volumes:
+    wordpress:
+        name: word
+        driver: local
+        driver_opts:
+            type: none
+            device: /home/pmontiel/data/word
+            o: bind
+    mariadb:
+        name: maria
+        driver: local
+        driver_opts:
+            type: none
+            device: /home/pmontiel/data/maria
+            o: bind

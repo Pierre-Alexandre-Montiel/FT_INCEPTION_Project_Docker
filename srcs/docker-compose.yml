@@ -6,7 +6,7 @@
 #    By: pmontiel <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/01 16:35:21 by pmontiel          #+#    #+#              #
-#    Updated: 2022/03/16 18:46:17 by pmontiel         ###   ########.fr        #
+#    Updated: 2022/03/17 16:27:27 by pmontiel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ services:
             - host
         ports:
               - 443:443
+        restart: always
     wordpress:
         image: wordpress
         container_name: "wordpress_cont"
@@ -41,9 +42,9 @@ services:
             - WORDPRESS_DB_USER:user_name
             - WORDPRESS_DB_PASSWORD:user_pass
             - WORDPRESS_TABLE_PREFIX:wp_
+        restart: always
     db:
-        image: "mariadb:${MARIADB_VERSION}"
-        container_name: "db_cont"
+        #image: "mariadb:${MARIADB_VERSION}"
         build: ./requirements/mariadb
         ports:
             - 3306:3306
@@ -56,21 +57,22 @@ services:
             - MYSQL_DATABASE:db_name
             - MYSQL_USER:user_name
             - MYSQL_PASSWORD:user_passnetworks
-        restart: always
+        restart: unless-stopped
+        tty: true
 networks:
     host:
 volumes:
     wordpress:
         name: wordpress
-        driver: local
-        driver_opts:
-            type: none
-            device: "/Users/pmontiel/Desktop/word"
-            o: bind
+        #  driver: local
+        #driver_opts:
+        #    type: none
+        #    device: "/Users/pmontiel/Desktop/word"
+        #    o: bind
     mariadb:
         name: mariadb
-        driver: local
-        driver_opts:
-            type: none
-            device: "/Users/pmontiel/Desktop/mari"
-            o: bind
+        # driver: local
+        #driver_opts:
+        #    type: none
+        #    device: "/Users/pmontiel/Desktop/mari"
+        #    o: bind

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Dockerfile                                         :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pmontiel <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: pmontiel <pmontiel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/04 11:23:40 by pmontiel          #+#    #+#              #
-#    Updated: 2022/03/16 19:12:07 by pmontiel         ###   ########.fr        #
+#    Updated: 2022/03/18 17:03:32 by pmontiel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,6 @@ EXPOSE 9000
 RUN apt-get update
 RUN apt install -y wget
 RUN apt install -y vim
-#RUN apt install -y php-fpm php-mysql
 RUN apt-get update && apt-get upgrade && apt-get install php7.3-fpm php7.3-gd php7.3-mysql php7.3-curl php7.3-imap php7.3-mbstring php7.3-xml -y
 COPY tools /srcs
 RUN cp srcs/www.conf /etc/php/7.3/fpm/pool.d/www.conf
